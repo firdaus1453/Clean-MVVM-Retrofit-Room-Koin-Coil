@@ -84,16 +84,7 @@ private fun HomeScreen(
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Blue
-                ),
-                actions = {
-                    IconButton(onClick = { onAction(HomeAction.OnRefresh) }) {
-                        Icon(
-                            Icons.Default.Refresh,
-                            contentDescription = "Refresh",
-                            tint = White
-                        )
-                    }
-                }
+                )
             )
         }
     ) { paddingValues ->
