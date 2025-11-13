@@ -2,23 +2,21 @@ package com.example.cleanmvvmretrofit.core.presentation.designsystem
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-val DarkColorScheme = darkColorScheme(
-    primary = Green,
-    background = Black,
-    surface = DarkGray,
-    secondary = White,
-    tertiary = White,
-    primaryContainer = Green30,
-    onPrimary = Black,
-    onBackground = White,
-    onSurface = White,
-    onSurfaceVariant = Gray,
+val LightColorScheme = lightColorScheme(
+    primary = Blue,
+    onPrimary = White,
+    background = Background,
+    onBackground = TextPrimary,
+    surface = Surface,
+    onSurface = TextPrimary,
+    onSurfaceVariant = TextSecondary,
+    secondary = BlueDark,
     error = DarkRed,
     errorContainer = DarkRed5
 )
@@ -27,12 +25,12 @@ val DarkColorScheme = darkColorScheme(
 fun Theme(
     content: @Composable () -> Unit
 ) {
-    val colorScheme = DarkColorScheme
+    val colorScheme = LightColorScheme
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
         }
     }
 

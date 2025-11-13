@@ -5,6 +5,8 @@ import coil.Coil
 import coil.ImageLoader
 import com.example.cleanmvvmretrofit.core.di.databaseModule
 import com.example.cleanmvvmretrofit.core.di.imageModule
+import com.example.cleanmvvmretrofit.home.data.di.homeDataModule
+import com.example.cleanmvvmretrofit.home.presentation.di.homeViewModelModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.android.inject
@@ -32,6 +34,8 @@ class App : Application() {
                 appModule,
                 databaseModule,
                 imageModule,
+                homeDataModule,
+                homeViewModelModule
             )
         }
 

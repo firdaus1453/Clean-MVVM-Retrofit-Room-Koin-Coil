@@ -10,7 +10,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.compose.rememberNavController
 import com.example.cleanmvvmretrofit.core.navigation.NavigationRoot
 import com.example.cleanmvvmretrofit.core.presentation.designsystem.Theme
 
@@ -41,8 +40,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppRoot() {
-    val navController = rememberNavController()
     NavigationRoot(
-        navController = navController, true
+        modifier = Modifier.fillMaxSize()
     )
 }

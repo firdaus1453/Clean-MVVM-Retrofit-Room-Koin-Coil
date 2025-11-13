@@ -1,119 +1,79 @@
+@file:OptIn(ExperimentalMaterial3AdaptiveApi::class)
+
 package com.example.cleanmvvmretrofit.core.navigation
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import android.widget.Toast
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.AnimatedPane
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.navigation.NavigableListDetailPaneScaffold
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.compose.ui.platform.LocalContext
+import com.example.cleanmvvmretrofit.core.presentation.ui.ObserveAsEvents
+import com.example.cleanmvvmretrofit.home.presentation.home.HomeAction
+import com.example.cleanmvvmretrofit.home.presentation.home.HomeEvent
+import com.example.cleanmvvmretrofit.home.presentation.home.HomeViewModel
+import com.example.cleanmvvmretrofit.home.presentation.home.RootHomeScreen
+import com.example.cleanmvvmretrofit.home.presentation.home_detail.RootHomeDetailScreen
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NavigationRoot(
-    navController: NavHostController,
-    isLoggedIn: Boolean,
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = koinViewModel()
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = if (isLoggedIn) Routes.Home else Routes.Home
-    ) {
-//        authGraph(navController)
-        homeGraph(navController)
-    }
-}
+    val state = viewModel.state
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
-private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
-    composable<Routes.Home> {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Greeting(
-                name = "Android",
-                modifier = Modifier.padding(innerPadding)
-            )
+    ObserveAsEvents(flow = viewModel.events) { event ->
+        when (event) {
+            is HomeEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
-}
 
-// TODO Just for template you can replace with proper screen from separate file
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
+    val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
+    NavigableListDetailPaneScaffold(
+        navigator = navigator,
+        listPane = {
+            AnimatedPane {
+                RootHomeScreen(
+                    onItemClick = { todoId ->
+                        viewModel.onAction(HomeAction.OnTodoClick(todoId))
+                        scope.launch {
+                            navigator.navigateTo(
+                                pane = ListDetailPaneScaffoldRole.Detail
+                            )
+                        }
+                    },
+                    viewModel = viewModel
+                )
+            }
+        },
+        detailPane = {
+            AnimatedPane {
+                state.selectedTodoId?.let { todoId ->
+                    RootHomeDetailScreen(
+                        todoId = todoId,
+                        onBackClick = {
+                            backDispatcher?.onBackPressed()
+                        }
+                    )
+                }
+            }
+        },
         modifier = modifier
     )
 }
-
-/*private fun NavGraphBuilder.authGraph(navController: NavHostController) {
-    navigation<Routes.Auth>(
-        startDestination = Routes.Login,
-    ) {
-        composable<Routes.Register> {
-            RegisterScreenRoot(
-                onSignInClick = {
-                    navController.navigate(Routes.Login) {
-                        NavOptionsBuilder.popUpTo(Routes.Register) {
-                            PopUpToBuilder.inclusive = true
-                            PopUpToBuilder.saveState = true
-                        }
-                        restoreState = true
-                    }
-                },
-                onSuccessfulRegistration = {
-                    navController.navigate(Routes.Login)
-                }
-            )
-        }
-        composable<Routes.Login> {
-            LoginScreenRoot(
-                onLoginSuccess = {
-                    navController.navigate(Routes.Home) {
-                        NavOptionsBuilder.popUpTo(Routes.Auth) {
-                            PopUpToBuilder.inclusive = true
-                        }
-                    }
-                },
-                onSignUpClick = {
-                    navController.navigate(Routes.Register) {
-                        NavOptionsBuilder.popUpTo(Routes.Login) {
-                            PopUpToBuilder.saveState = true
-                        }
-                        restoreState = true
-                    }
-                }
-            )
-        }
-    }
-}
-
-private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
-    composable<Routes.Home> {
-        BottomNavigationScreen(
-            onLogout = {
-                navController.navigate(Routes.Auth) {
-                    NavOptionsBuilder.popUpTo(Routes.Home) {
-                        PopUpToBuilder.inclusive = true
-                    }
-                }
-            },
-            onNavigateToDetail = { pokemonId ->
-                navController.navigate(
-                    Routes.DetailHome(
-                        pokemonId = pokemonId
-                    )
-                )
-            }
-        )
-    }
-
-    composable<Routes.DetailHome> {
-        val args = it.toRoute<Routes.DetailHome>()
-        HomeDetailScreenRoot(
-            pokemonId = args.pokemonId,
-            onBackClick = {
-                navController.navigateUp()
-            }
-        )
-    }
-}*/
