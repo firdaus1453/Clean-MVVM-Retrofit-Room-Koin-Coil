@@ -77,7 +77,7 @@ private fun HomeScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Firdaus - Todo Master Detail",
+                        "Muhammad Firdaus - Todo Apps",
                         color = White,
                         fontWeight = FontWeight.Bold
                     )

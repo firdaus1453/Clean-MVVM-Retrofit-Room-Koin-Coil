@@ -36,14 +36,18 @@ class HomeDetailViewModel(
         }
     }
 
-    private fun loadTodoDetail() {
+    fun reloadTodoDetail(newTodoId: Int) {
+        loadTodoDetail(newTodoId)
+    }
+
+    private fun loadTodoDetail(id: Int = todoId) {
         viewModelScope.launch {
             state = state.copy(
                 isLoading = true,
                 error = null
             )
 
-            when (val result = todoRepository.getTodoDetail(todoId)) {
+            when (val result = todoRepository.getTodoDetail(id)) {
                 is Result.Success -> {
                     state = state.copy(
                         isLoading = false,

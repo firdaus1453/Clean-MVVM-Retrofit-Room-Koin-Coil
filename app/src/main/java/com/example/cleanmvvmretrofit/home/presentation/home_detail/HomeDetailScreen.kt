@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -46,6 +47,7 @@ import com.example.cleanmvvmretrofit.core.presentation.designsystem.BlueDark
 import com.example.cleanmvvmretrofit.core.presentation.designsystem.DarkRed
 import com.example.cleanmvvmretrofit.core.presentation.designsystem.Gray
 import com.example.cleanmvvmretrofit.core.presentation.designsystem.Green
+import com.example.cleanmvvmretrofit.core.presentation.designsystem.GreenDark
 import com.example.cleanmvvmretrofit.core.presentation.designsystem.TextSecondary
 import com.example.cleanmvvmretrofit.core.presentation.designsystem.White
 import com.example.cleanmvvmretrofit.core.presentation.ui.ObserveAsEvents
@@ -60,6 +62,10 @@ fun RootHomeDetailScreen(
     viewModel: HomeDetailViewModel = koinViewModel { parametersOf(todoId) }
 ) {
     val state = viewModel.state
+
+    LaunchedEffect(todoId) {
+        viewModel.reloadTodoDetail(todoId)
+    }
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
@@ -173,10 +179,11 @@ private fun TodoDetailContent(
                 .height(200.dp)
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(
-                            Blue,
-                            BlueDark
-                        )
+                        colors = if (todo.completed) {
+                            listOf(Green, GreenDark)
+                        } else {
+                            listOf(Blue, BlueDark)
+                        }
                     )
                 )
         ) {
