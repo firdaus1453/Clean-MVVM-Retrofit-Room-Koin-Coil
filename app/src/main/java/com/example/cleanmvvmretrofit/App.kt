@@ -3,7 +3,6 @@ package com.example.cleanmvvmretrofit
 import android.app.Application
 import coil.Coil
 import coil.ImageLoader
-import com.example.cleanmvvmretrofit.core.di.databaseModule
 import com.example.cleanmvvmretrofit.core.di.imageModule
 import com.example.cleanmvvmretrofit.home.data.di.homeDataModule
 import com.example.cleanmvvmretrofit.home.presentation.di.homeViewModelModule
@@ -32,7 +31,6 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 appModule,
-                databaseModule,
                 imageModule,
                 homeDataModule,
                 homeViewModelModule

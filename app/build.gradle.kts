@@ -65,15 +65,11 @@ dependencies {
 
     implementation(libs.bundles.koin)
     implementation(libs.bundles.retrofit)
-    implementation(libs.bundles.room)
     implementation(libs.core.ktx)
-    ksp(libs.room.compiler)
     implementation(libs.timber)
     implementation(libs.bundles.coroutines)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.security.crypto.ktx)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.core.splashscreen)
     implementation(libs.coil.compose)
 
 
