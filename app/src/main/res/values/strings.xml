@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CleanMVVMRetrofit</string>
+    <string name="app_name">Todos Apps</string>
 
     // Auth
     <string name="sign_up">Sign up</string>
