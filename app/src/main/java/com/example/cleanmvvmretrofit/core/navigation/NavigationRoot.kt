@@ -9,7 +9,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.cleanmvvmretrofit.home.AcademicSystemApp
+import com.example.cleanmvvmretrofit.home.domain.UjianWithStudents
+import com.example.cleanmvvmretrofit.home.presentation.AcademicSystemApp
 
 @Composable
 fun NavigationRoot(
