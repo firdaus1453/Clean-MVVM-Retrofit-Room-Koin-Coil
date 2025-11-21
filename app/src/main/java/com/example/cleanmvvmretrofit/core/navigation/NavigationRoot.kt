@@ -3,13 +3,13 @@ package com.example.cleanmvvmretrofit.core.navigation
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.cleanmvvmretrofit.home.AcademicSystemApp
 
 @Composable
 fun NavigationRoot(
@@ -28,21 +28,9 @@ fun NavigationRoot(
 private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
     composable<Routes.Home> {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Greeting(
-                name = "Android",
-                modifier = Modifier.padding(innerPadding)
-            )
+            AcademicSystemApp(modifier = Modifier.padding(innerPadding))
         }
     }
-}
-
-// TODO Just for template you can replace with proper screen from separate file
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
 
 /*private fun NavGraphBuilder.authGraph(navController: NavHostController) {

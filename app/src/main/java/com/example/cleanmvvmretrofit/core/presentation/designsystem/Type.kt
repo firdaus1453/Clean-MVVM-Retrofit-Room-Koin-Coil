@@ -1,6 +1,8 @@
 package com.example.cleanmvvmretrofit.core.presentation.designsystem
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
